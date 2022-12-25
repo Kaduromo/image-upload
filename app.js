@@ -69,15 +69,26 @@ listAll(ImageRef).then((response) => {
   const blockBody = document.createElement("div")
   blockBody.className = "images__body"
 
-  block.append(blockBody)
+  block.insertAdjacentElement("beforeend", blockBody)
   response.items.forEach((item) => {
     getDownloadURL(item).then((url) => {
       blockBody.insertAdjacentHTML(
-        "afterbegin",
+        "beforeend",
         `<div><img src="${url}" alt="${url}" /></div>`
       )
 
       card.append(block)
+      blockBody.querySelectorAll("img").forEach((item) =>
+        item.addEventListener("click", (e) => {
+          if (e.target === item) {
+            location.href = item.src
+          }
+        })
+      )
     })
   })
 })
+
+function copyToClickboard(text) {
+  return navigator.clipboard.writeText(text)
+}
