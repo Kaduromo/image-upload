@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "build": "parcel build index.html --no-source-maps --no-cache --public-url .",
     "start": "parcel index.html"
   },
   "keywords": [],
@@ -11,10 +12,15 @@
   "license": "ISC",
   "devDependencies": {
     "parcel-bundler": "^1.12.5",
+    "parcel-plugin-clean-easy": "^1.0.2",
     "sass": "^1.53.0"
   },
   "dependencies": {
     "firebase": "^9.8.4",
     "upload": "^1.1.1"
-  }
+  },
+  "parcelCleanPaths": [
+    "dist",
+    ".cache"
+  ]
 }
