@@ -59,15 +59,16 @@ export function upload(selector, options = {}) {
     upload.style.display = "inline"
 
     files.forEach((file) => {
-      if (!file.type.match("image")) return
+      // if (!file.type.match("image")) return
 
-      const reader = new FileReader()
+      if (file.type.match("image")) {
+        const reader = new FileReader()
 
-      reader.onload = (ev) => {
-        const src = ev.target.result
-        preview.insertAdjacentHTML(
-          "afterbegin",
-          `
+        reader.onload = (ev) => {
+          const src = ev.target.result
+          preview.insertAdjacentHTML(
+            "afterbegin",
+            `
           <div class="preview__item">
             <div class="preview__image">
               <div class="preview__remove" data-name="${
@@ -81,10 +82,39 @@ export function upload(selector, options = {}) {
             </div>
           </div>
           `
-        )
-      }
+          )
+        }
 
-      reader.readAsDataURL(file)
+        reader.readAsDataURL(file)
+        return
+      }
+      if (file.type.match("video")) {
+        const reader = new FileReader()
+
+        reader.onload = (ev) => {
+          const src = ev.target.result
+          preview.insertAdjacentHTML(
+            "afterbegin",
+            `
+          <div class="preview__item">
+            <div class="preview__image">
+              <div class="preview__remove" data-name="${
+                file.name
+              }">&times;</div>
+              <video src="${src}" alt="${file.name}"></video>
+              <div class="preview__info">
+                <span>${file.name}</span>
+                ${bytesToSize(file.size)}
+              </div>
+            </div>
+          </div>
+          `
+          )
+        }
+
+        reader.readAsDataURL(file)
+        return
+      }
     })
   }
 
